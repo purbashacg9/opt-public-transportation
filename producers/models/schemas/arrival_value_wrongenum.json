@@ -1,0 +1,30 @@
+{
+  "name": "arrival", 
+  "type": "record", 
+  "namespace": "com.udacity.project.publictransportation", 
+  "fields": [
+    {"name": "station_id", "type": "int"}, 
+    {"name": "prev_station_id", "type": "int"}, 
+    {
+      "name": "direction", 
+      "type": "enum", 
+      "symbols": ["a", "b"]
+    },
+    {
+      "name": "prev_direction", 
+      "type": "enum", 
+      "symbols": ["a", "b"]
+    }, 
+    {"name": "train_id", "type": "int"}, 
+    {
+      "name": "line", 
+      "type": "enum", 
+      "symbols": ["blue", "green", "red"]
+    }, 
+    {
+      "name": "train_status", 
+      "type": "enum",
+      "symbols": ["out_of_service", "in_service", "broken_down"]
+    }
+  ]
+}

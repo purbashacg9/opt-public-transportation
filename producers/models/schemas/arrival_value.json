@@ -1,0 +1,26 @@
+{
+    "name": "arrival", 
+    "type": "record", 
+    "namespace": "com.udacity.project.publictransportation", 
+    "fields": [
+      {"name": "station_id", "type": "int"}, 
+      {"name": "prev_station_id", "type": ["null", "int"]}, 
+      {
+        "name": "direction", 
+        "type": "string"
+      },
+      {
+        "name": "prev_direction", 
+        "type": ["null", "string"] 
+      }, 
+      {"name": "train_id", "type": "string"}, 
+      {
+        "name": "line", 
+        "type":  "string"
+      }, 
+      {
+        "name": "train_status", 
+        "type": "string" 
+      }
+    ]
+  }
