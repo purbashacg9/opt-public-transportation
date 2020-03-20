@@ -1,6 +1,6 @@
 """Defines trends calculations for stations"""
+import asyncio 
 import logging
-
 import faust
 
 
@@ -29,29 +29,51 @@ class TransformedStation(faust.Record):
     line: str
 
 
-# TODO: Define a Faust Stream that ingests data from the Kafka Connect stations topic and
-#   places it into a new topic with only the necessary information.
+# Define a Faust Stream that ingests data from the Kafka Connect stations topic and
+# places it into a new topic with only the necessary information.
 app = faust.App("stations-stream", broker="kafka://localhost:9092", store="memory://")
-# TODO: Define the input Kafka Topic. Hint: What topic did Kafka Connect output to?
-# topic = app.topic("TODO", value_type=Station)
-# TODO: Define the output Kafka Topic
-# out_topic = app.topic("TODO", partitions=1)
-# TODO: Define a Faust Table
-#table = app.Table(
-#    # "TODO",
-#    # default=TODO,
-#    partitions=1,
-#    changelog_topic=out_topic,
-#)
+
+# Define the input Kafka Topic.
+topic = app.topic(
+                "org.chicago.transit.looptrain.connect-stations", 
+                value_type=Station
+            )
+
+# Define the output Kafka Topic
+out_topic = app.topic(
+                "org.chicago.transit.looptrain.connect-stations.transformed", 
+                value_type=TransformedStation,
+                partitions=1
+            )
+
+# Define a Faust Table
+table = app.Table(
+   "transformed_stations",
+   default=int,
+   partitions=1,
+   changelog_topic=out_topic,
+)
 
 
-#
-#
-# TODO: Using Faust, transform input `Station` records into `TransformedStation` records. Note that
+# Using Faust, transform input `Station` records into `TransformedStation` records. Note that
 # "line" is the color of the station. So if the `Station` record has the field `red` set to true,
 # then you would set the `line` of the `TransformedStation` record to the string `"red"`
-#
-#
+@app.agent(topic)
+async def process_station(stations): 
+    async for station in stations: 
+        transformed_station = TransformedStation(
+            station_id = station.station_id,
+            station_name = station.station_name,
+            order = station.order
+        )
+        
+        if station.red:
+            transformed_station.line = "red" 
+        elif station.blue:
+            transformed_station.line = "blue" 
+        else:
+            transformed_station.line = "green"         
+        await out_topic.send(value=transformed_station)
 
 
 if __name__ == "__main__":
