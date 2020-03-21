@@ -64,6 +64,7 @@ async def process_station(stations):
         transformed_station = TransformedStation(
             station_id = station.station_id,
             station_name = station.station_name,
+            line = "",
             order = station.order
         )
         
