@@ -35,13 +35,13 @@ app = faust.App("stations-stream", broker="kafka://localhost:9092", store="memor
 
 # Define the input Kafka Topic.
 topic = app.topic(
-                "org.chicago.transit.looptrain.connect-stations", 
+                "org.chicago.stations.table.connect-stations", 
                 value_type=Station
             )
 
 # Define the output Kafka Topic
 out_topic = app.topic(
-                "org.chicago.transit.looptrain.connect-stations.transformed", 
+                "org.chicago.stations.table.connect-stations.transformed", 
                 value_type=TransformedStation,
                 partitions=1
             )
