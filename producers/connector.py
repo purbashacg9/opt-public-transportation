@@ -39,8 +39,8 @@ def configure_connector():
                 "table.whitelist": "stations",
                 "mode": "incrementing",
                 "incrementing.column.name": "stop_id",
-                "topic.prefix": "org.chicago.transit.looptrain.connect-",
-                "poll.interval.ms": 900000,
+                "topic.prefix": "org.chicago.stations.table.connect-",
+                "poll.interval.ms": 60000,
            }
        }),
     )
