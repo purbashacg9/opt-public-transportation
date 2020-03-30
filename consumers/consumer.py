@@ -36,7 +36,7 @@ class KafkaConsumer:
         # and use the Host URL for Kafka and Schema Registry!
         self.broker_properties = { 
             "bootstrap.servers": BROKER_LIST, 
-            "group.id": f"consumer_group_{self.topic_name_pattern}",
+            "group.id": "project_group",
             "auto.offset.reset": "earliest"
         }
 
@@ -45,11 +45,11 @@ class KafkaConsumer:
             self.broker_properties["schema.registry.url"] = SCHEMA_REGISTRY_URL
             #TODO what to about the schema readers? 
             self.consumer = AvroConsumer(
-                config = self.broker_properties
+                self.broker_properties
             )
         else:
             self.consumer = Consumer(
-                config = self.broker_properties
+                self.broker_properties
             )
 
         # Configure the AvroConsumer and subscribe to the topics. Make sure to think about
