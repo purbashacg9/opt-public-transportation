@@ -38,7 +38,7 @@ class Turnstile(Producer):
     def run(self, timestamp, time_step):
         """Simulates riders entering through the turnstile."""
         num_entries = self.turnstile_hardware.get_entries(timestamp, time_step)
-        logger.info("Sending turnstile events to kafka topic ")
+        logger.info(f"Sending turnstile events to kafka topic {self.topic_name}")
         turnstile_message = { 
             "station_id": self.station.station_id,
             "station_name": self.station.name, 
