@@ -94,8 +94,8 @@ class KafkaConsumer:
 
     def close(self):
         """Cleans up any open kafka consumers"""
-        #
-        #
-        # TODO: Cleanup the kafka consumer
+        # Cleanup the kafka consumer
         # finish consuming any messages that the consumer has polled and then close the 
         # library. This allows client to flush offset and process  any remianing messages 
+        logger.info('Closing down consumer')
+        self.consumer.close()
